@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+Assignment: jQuery improvement 1) Event handling 2) Change element size
+Class:      CIS 185 Javascript
+Author:     Brian Lloyd
+Date:       Spring 2014
+Purpose:    When enlarge clock button pushed, enlarge form text and textbox font size;
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script>
+            var clockTimer = window.setInterval(function(){updateClock();},1000);
+            /*Purpose:  Update the time in the textbox as a 12 hour clock
+             *          in the format hh:mm:ss AM/PM
+             */ 
+            function updateClock(){
+                $(document).ready(function(){
+                    $("#enlarge").click(function(){//jQuery Example, event handling
+                        $("form").css("fontSize","50px");
+                        $("#clockText").css("fontSize","50px");
+                        $("#enlarge").hide();
+                    });
+                });
+                var currentDate = new Date();
+                //Determine am or pm
+                var amPm = (currentDate.getHours()>12)? "PM":"AM";
+                //reduce by 12 if needed for 12 hour clock
+                var hour = (currentDate.getHours()>12)? currentDate.getHours() -12: currentDate.getHours();
+                
+                var minute = currentDate.getMinutes();
+                var seconds = currentDate.getSeconds();
+                
+                //Add leading zero if needed for formatting
+                minute = leadingZero(minute);
+                seconds = leadingZero(seconds);
+                //Display text
+                this.clock.clockText.value = hour +":"+minute+":" + seconds + " " +amPm;
+            }
+            
+            //Add leading zero if needed to input
+            function leadingZero(timeValue){
+                var returnValue = timeValue;
+                if (returnValue <10){
+                    returnValue = "0" + returnValue;
+                }
+                return returnValue;
+            }
+        </script>
+    </head>
+    <body>
+        <form id='clock'>
+            Digital Clock
+            <input type="text" id="clockText">
+            <input type="button" id="enlarge" value="Enlarge Clock">
+        </form>
+    </body>
+</html>

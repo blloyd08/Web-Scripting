@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+Assignment: Final jQuery Improvements 1)Shake gui on incorrect guess
+Class:      CIS 185 Javascript
+Author:     Brian Lloyd
+Date:       Spring 2014
+Purpose:    Use jQuery to shake gui to notify user of incorrect guess
+-->
+<html>
+    <head>
+        <title>Guessing Game</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        <script>
+            var srcWord = "Mississippi".split('');//Variable for source word
+            var secretWord = [];//Holds astricks until a match is found and revealed
+
+            /*get the character entered in the guess textbox and then search through
+             * the source word character by character. If the guess character matches
+             * the character in the same possiton in the source word then reveal
+             * that character in the source word
+             */
+            function checkWord() {
+                var guessChar = this.guessForm.guessText.value;//get guess character
+                var correctGuess = false;
+                if (guessChar === "") {//Check if user entered character
+                    alert("You must enter a character");
+                } else {//User entered a character
+                    for (var i = 0; i < srcWord.length; i++) {//loop through each character in sourceWord
+                        if (secretWord[i] === '*') {//Only check characters that have not been revealed
+                            if (guessChar.toUpperCase() === srcWord[i].toUpperCase()) {
+                                secretWord[i] = srcWord[i];//If match, change '*' to character
+                                correctGuess = true;
+                            }
+                        }
+                    }
+                    if (srcWord.join('') === secretWord.join('')){//Check if every character is guessed
+                        this.guessForm.secretText.value = secretWord.join('') + " is correct!";//All characters guessed correct
+                    }else{                        
+                        this.guessForm.secretText.value = secretWord.join('');//Display secret word
+                    }
+                    this.guessForm.guessText.value = "";//Clear text
+                    this.guessForm.guessText.focus();//set focus
+                    if (!correctGuess){
+                        $(".guess").effect("shake",{times:3},100);
+                    }
+                }
+            }
+            //Add astricks to the same length as the source word and then set the
+            //value of the secret textbox is set to the asticts, set onload
+            function formatSecretWord() {
+                for (var i = 0; i < srcWord.length; i++) {
+                    secretWord[i] = '*';
+                }
+                this.guessForm.secretText.value = secretWord.join('');
+            }
+        </script>
+    </head>
+    <body onload="formatSecretWord()">
+        <form id="guessForm">
+            <h3>Guessing Game</h3>
+            Secret Word:<input type="text" readonly="readonly" id="secretText"/><br>
+            <div class="guess">
+            Guess Letter:<input type="text" size="2" id="guessText"/>
+            <input type="button" value="Submit" onclick="checkWord()">
+            </div>
+        </form>
+    </body>
+</html>

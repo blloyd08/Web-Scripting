@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+Assignment: Final jQuery Improvements 1)$(element).val()
+Class:      CIS 185 Javascript
+Author:     Brian Lloyd
+Date:       Spring 2014
+Purpose:    Use input from form textboxes and calculate BMI, display results in
+            form textbox
+-->
+<html>
+    <head>
+        <title>BMI Calculator</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script>
+            /*Purpose:  Retrieve weight and length from form input and calculate
+             *          body mass index.
+             *          BMI= (Weight * 703)/(Height squared)
+             *          Format result to two decimal points and change display
+             *          in form results textbox
+             */
+            $(document).ready(function(){
+                $("#calc").click(function(){
+                   var weight = parseInt($("#weight").val()) *703;//JQuery
+                   var height = Math.pow(parseInt($("#height").val()),2);
+                   $("#results").val((weight/height).toFixed(0));
+                });
+            });
+            function calcBMI(){
+                var weight = parseInt(this.calculator.weight.value) * 703;
+                var height = Math.pow(parseInt(this.calculator.height.value),2);
+                this.calculator.results.value=(weight/height).toFixed(0);
+            }
+        </script>
+    </head>
+    <body>
+        <form name="calculator">
+            <table>
+                <tr>
+                    <td>Weight</td>
+                    <td><input id="weight" name="weight" value="" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>Height</td>
+                    <td><input id="height" name="height" value="" type="text"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input id="calc" type="button" value="Calculate" onclick="" style="width: 100%"/></td>
+                </tr>                
+                <tr>
+                    <td>BMI</td>
+                    <td><input id="results" name="results" value="" type="text"/></td>
+                </tr>
+
+            </table>
+        </form>
+    </body>
+</html>

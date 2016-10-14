@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+Assignment: Final jQuery Improvemetns 1)Slide Toggle (Hide Roster)
+                                      2)Background color change
+                                      3)jQuery loop through textbox values
+Class:      CIS 185 Javascript
+Author:     Brian Lloyd
+Date:       Spring 2014
+Purpose:    
+-->
+<html>
+<head>
+<title>Bowling Team</title>
+<meta http-equiv="content-type" content="text/html;charset=windows-1252" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+        $("#rosterDiv").hide();//Hide initially
+        //Show Hide roster
+        $("#rosterButton").click(function(){
+                $("#rosterDiv").slideToggle();
+        });
+        //Change background color
+        $("#background").click(function(){
+            $("body").css("backgroundColor","blue");
+        });
+        
+        //Display a list of bowler names //**************jQuery loop
+        $("#listRoster").click(function(){
+            if($("td").text() === "Roster is empty"){
+                alert("Roster empty, no one to list");
+             }else{//Roster not empty
+                $("td input[type=text").each(function(index){
+                document.write("<p>" + (index + 1) +": " + $(this).val()+"</p>");
+            });
+        }
+        });
+        
+    });
+/* <![CDATA[ */
+var emptyRoster = true;
+function addBowler(selectedItem) {
+	if (emptyRoster === true) {
+		document.getElementById('roster').deleteRow(0);
+		emptyRoster = false;
+	}
+	var name = document.insertForm.bowlName.value;
+        var rosterTable = document.getElementById("roster");
+        var count = roster.rows.length;
+	var newRow = roster.insertRow();
+	var bowlerCell = newRow.insertCell(0);
+	bowlerCell.innerHTML = "<input type=\"text\" value=\"" + name +"\" name=\"bowler\">";
+	var actionCell = newRow.insertCell(1);
+	actionCell.innerHTML = "<input type='button' value='Remove' "
+	+ "onclick=\"removeItem(" + newRow.rowIndex + ")\"' />";
+}
+function removeItem(rowNum) {
+	if (document.getElementById("roster").rows.length > 1) {
+		document.getElementById("roster").deleteRow(rowNum);
+	}
+	else {
+		document.getElementById("roster").rows[0].innerHTML = "<td>Roster is empty</td>";
+		emptyRoster = true;
+	}
+}
+/* ]]> */
+</script>
+</head>
+<body>
+<h1>Bowling Team</h1>
+<form id="insertForm" name="insertForm">
+    Bowler Name: <input type="text" id="bowlName" name="bowlName"><input type="button" value="Add Bowler" onclick="addBowler()">
+</form>
+<br><input type="button" value="Show/Hide Roster" id="rosterButton">
+<input type="button" value="Change Background Color" id="background">
+<div id="rosterDiv">
+<h2>Bowling Roster</h2>
+<form id="rosterForm" name="rosterForm" action="FormPr     ocessor.html" method="get">
+<table id="roster" border="1">
+    <tr><td>Roster is empty</td></tr>
+</table>
+<br> <input type="submit" value="Submit Roster">
+</form>
+<input id="listRoster" type="button" value="List Bowlers">
+</div>
+</body>
+</html>

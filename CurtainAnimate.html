@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+Assignment: Final jQuery Improvements 1) Animate(Shrink blue div)//Commented out javascript implementation
+Class:      CIS 185 Javascript
+Author:     Brian Lloyd
+Date:       Spring 2014
+Purpose:    Clip blue div so that it shrinks to the left, looking like a curtain
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $(function(){
+                   var windowWidth = $(window).width();
+                   var windowHeight = $(window).height();
+                   $("#il").css({"height":windowHeight,"width":windowWidth});
+                });
+                $("#il").animate({width:0},1000);
+            });
+            var clipSpeed=5;
+            var clipRight=0;
+            var clipLeft=0;
+            var clipTop=0;
+            var boxSize;
+            var stopShrinking;
+            var clipBottom = 0;
+            var clipBox;
+            
+            /*Purpose:  
+             */
+            function startShrinking(){
+                clipBox = document.getElementById("il").style;
+                if(navigator.appName == "Microsoft Internet Explorer"){
+                    boxSize = document.documentElement.clientWidth/document.documentElement.clientHeight;
+                    clipRight = document.documentElement.clientWidth;
+                    clipBox.width-clipRight + "px";
+                    clipBottom=document.documentElement.clientHeight;
+                    clipBox.height=clipBottom + "px";
+                }
+                else{
+                    boxSize = window.innerWidth/window.innerHeight;
+                    clipRight = window.innerWidth;
+                    clipBox.width =clipRight + "px";
+                    clipBottom=window.innerHeight;
+                    clipBox.height=clipBottom +"px";
+                }
+                stopShrinking=setInterval("shrinkBox()",100);
+            }
+            
+            function shrinkBox(){
+                if (navigator.appName== "Microsoft Internet Explorer"){
+                    minBoxSize=document.documentElement.clientWidth/2;
+                }else{
+                    minBoxSize=window.innerWidth/2
+                    if (clipLeft >minBoxSize){
+                        clearInterval(stopShrinking);
+                        clipBox.display="none";
+                    }
+                    clipBox.clip="rect("+ clipTop + "px " +
+                            clipRight + "px " +
+                            clipBottom + "px " +
+                            clipLeft + "px)";
+                    clipRight -= boxSize*clipSpeed;
+                }
+            }
+        </script>
+    </head>
+    <body onload="/*startShrinking()*/">
+        <div id="il" style="position: absolute;background-color: blue;"></div>
+    </body>
+</html>

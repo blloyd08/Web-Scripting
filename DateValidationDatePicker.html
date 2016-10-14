@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+Assignment: Final jQuery Improvements 1) Date Picker
+Class:      CIS 185 Javascript
+Author:     Brian Lloyd
+Date:       Spring 2014
+Purpose:    Use jQuery date picker to help select valid date
+-->
+<html>
+    <head>
+        <title>Date Validation</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width">
+          <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                     $("#dateText").datepicker(); //Date picker attatched
+            });
+            
+            //accept 1or2 digit month, 1or2 digit day, 2or 4 digit year
+            var datePattern = new RegExp(/^(0[1-9]|1[012]|[1-9])[/-](0[1-9]|[12][0-9]|3[01]|[1-9])[/-](\d{2}|\d{4})$/);
+            /*Purpose:  validate date using regular expression against textbox value
+             */
+            function checkDate(){
+                var dateString = this.dateForm.dateText.value;
+                if(dateString.match(datePattern) ===null){//check if date matches pattern
+                    alert("Date isn't valid");
+                } else{
+                    alert("Date has been accepted");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <form id="dateForm">
+            <h3>Date Validation</h3><br>
+            <input id="dateText" type="text">
+            <input type="button" value="Submit Date" id="subButton" onclick="checkDate()">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+Assignment: Final jQuery Improvements 1)jQuery validate
+Class:      CIS 185 Javascript
+Author:     Brian Lloyd
+Date:       Spring 2014
+Purpose:    Use jQuery validator
+-->
+<html>
+<head>
+    <title></title>
+    <meta charset="windows-1252">
+    <meta name="viewport" content="width=device-width">
+    <link type="text/css" rel="stylesheet" href="formStyle.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+          $("#photoForm").validate();
+      });
+
+        
+        var tDate = new Date();
+        /*Purpose:  
+         */
+        function displayDate(){
+            var rbValue = checkedValue();//Hold value of selected radio button
+            var pickDays = numOfDays(rbValue);//Number of days until pickup
+            var tDate= new Date(); //Current date
+            
+            //Display current date in textbox
+            this.photoForm.today.value = tDate.toLocaleDateString();
+
+            //If pickDays are greater than 0, calculate pickup date and display
+            if (pickDays > 0){//0 pickDays means rb not checked
+                tDate.setDate(tDate.getDate() + pickDays);
+                this.photoForm.pickUp.value=tDate.toLocaleDateString();
+            }
+        }
+        //Find the value of the checked radio button
+        function checkedValue(){
+            var length = this.photoForm.item.length;//Number of radio buttons
+            var selValue;//Hold selected value
+            for (var i = 0; i <length;i++){
+                if (this.photoForm.item[i].checked){
+                    selValue= this.photoForm.item[i].value;
+                    break;
+                }
+            }
+            return selValue;
+        }
+        
+        //Return the number of days for pickup
+        //Based off selected radio button value
+        function numOfDays(rbValue){
+            var days;
+            switch(rbValue){
+                case "print":
+                case "poster":
+                    days = 1;
+                    break;
+                case "mug":
+                    days = 2;
+                    break;
+                case "shirt":
+                    days = 3;
+                    break;
+                default:
+                    days =0;
+            }
+            return days;
+        }
+    </script>
+</head>
+<body onload="displayDate()">
+    <h3>Digital Photo Development</h3>
+    <form class="cmxform" method="get" action="FormProcessor.html" id="photoForm">
+        <fieldset class="inputSet">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="required" name="lastName" id="lastName">
+            <label for="firstName">First Name</label>
+            <input type="text" class="required" name="firstName" id="firstName">
+            <label for="phone">Telephone</label>
+            <input type="text" class="required" name="phone" id="phone">
+        </fieldset>
+        <fieldset>
+            <legend>Item</legend>
+            <input type="radio" onchange="displayDate()" name ="item" value="print">5x7 Prints(1 Day)
+            <input type="radio" onchange="displayDate()" name ="item" value="poster">Poster(1 Day)
+            <input type="radio" onchange="displayDate()" name ="item" value="mug">Coffee Mug(2 Days)
+            <input type="radio" onchange="displayDate()" name ="item" value="shirt">T-Shirt(3 Days)
+        </fieldset>
+        <fieldset class="inputSet">
+            <label for="today">Today's Date</label>
+            <input type="text" class="required" name="today" id="today">
+            <label for="pickUp">Pick-up Date</label>
+            <input type="Text" class="required" name="pickup" id="pickUp">
+        </fieldset>
+        <input type="submit" class="submit" value="Place Order" onclick="">
+    </form>
+</body>
+</html>
